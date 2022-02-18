@@ -33,7 +33,7 @@ abstract class BaseIO implements IOInterface
     /**
      * @return void
      */
-    public function resetAuthentications()
+    public function resetAuthentications(): void
     {
         $this->authentications = array();
     }
@@ -61,7 +61,7 @@ abstract class BaseIO implements IOInterface
     /**
      * @inheritDoc
      */
-    public function setAuthentication($repositoryName, $username, $password = null)
+    public function setAuthentication($repositoryName, $username, $password = null): void
     {
         $this->authentications[$repositoryName] = array('username' => $username, 'password' => $password);
     }
@@ -69,7 +69,7 @@ abstract class BaseIO implements IOInterface
     /**
      * @inheritDoc
      */
-    public function writeRaw($messages, $newline = true, $verbosity = self::NORMAL)
+    public function writeRaw($messages, $newline = true, $verbosity = self::NORMAL): void
     {
         $this->write($messages, $newline, $verbosity);
     }
@@ -77,7 +77,7 @@ abstract class BaseIO implements IOInterface
     /**
      * @inheritDoc
      */
-    public function writeErrorRaw($messages, $newline = true, $verbosity = self::NORMAL)
+    public function writeErrorRaw($messages, $newline = true, $verbosity = self::NORMAL): void
     {
         $this->writeError($messages, $newline, $verbosity);
     }
@@ -91,7 +91,7 @@ abstract class BaseIO implements IOInterface
      *
      * @return void
      */
-    protected function checkAndSetAuthentication($repositoryName, $username, $password = null)
+    protected function checkAndSetAuthentication($repositoryName, $username, $password = null): void
     {
         if ($this->hasAuthentication($repositoryName)) {
             $auth = $this->getAuthentication($repositoryName);

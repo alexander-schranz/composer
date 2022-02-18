@@ -61,7 +61,7 @@ class RequireCommand extends BaseCommand
     /**
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('require')
@@ -339,7 +339,7 @@ EOT
      * @private
      * @return void
      */
-    public function markSolverComplete()
+    public function markSolverComplete(): void
     {
         $this->dependencyResolutionCompleted = true;
     }
@@ -480,7 +480,7 @@ EOT
      * @param bool $hardExit
      * @return void
      */
-    public function revertComposerFile($hardExit = true)
+    public function revertComposerFile($hardExit = true): void
     {
         $io = $this->getIO();
 

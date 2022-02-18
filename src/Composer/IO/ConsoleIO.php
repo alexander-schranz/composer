@@ -71,7 +71,7 @@ class ConsoleIO extends BaseIO
      *
      * @return void
      */
-    public function enableDebugging($startTime)
+    public function enableDebugging($startTime): void
     {
         $this->startTime = $startTime;
     }
@@ -79,7 +79,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isInteractive()
+    public function isInteractive(): bool
     {
         return $this->input->isInteractive();
     }
@@ -87,7 +87,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isDecorated()
+    public function isDecorated(): bool
     {
         return $this->output->isDecorated();
     }
@@ -95,7 +95,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isVerbose()
+    public function isVerbose(): bool
     {
         return $this->output->isVerbose();
     }
@@ -103,7 +103,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isVeryVerbose()
+    public function isVeryVerbose(): bool
     {
         return $this->output->isVeryVerbose();
     }
@@ -111,7 +111,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function isDebug()
+    public function isDebug(): bool
     {
         return $this->output->isDebug();
     }
@@ -119,7 +119,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function write($messages, $newline = true, $verbosity = self::NORMAL)
+    public function write($messages, $newline = true, $verbosity = self::NORMAL): void
     {
         $this->doWrite($messages, $newline, false, $verbosity);
     }
@@ -127,7 +127,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function writeError($messages, $newline = true, $verbosity = self::NORMAL)
+    public function writeError($messages, $newline = true, $verbosity = self::NORMAL): void
     {
         $this->doWrite($messages, $newline, true, $verbosity);
     }
@@ -135,7 +135,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function writeRaw($messages, $newline = true, $verbosity = self::NORMAL)
+    public function writeRaw($messages, $newline = true, $verbosity = self::NORMAL): void
     {
         $this->doWrite($messages, $newline, false, $verbosity, true);
     }
@@ -143,7 +143,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function writeErrorRaw($messages, $newline = true, $verbosity = self::NORMAL)
+    public function writeErrorRaw($messages, $newline = true, $verbosity = self::NORMAL): void
     {
         $this->doWrite($messages, $newline, true, $verbosity, true);
     }
@@ -175,7 +175,7 @@ class ConsoleIO extends BaseIO
         if (null !== $this->startTime) {
             $memoryUsage = memory_get_usage() / 1024 / 1024;
             $timeSpent = microtime(true) - $this->startTime;
-            $messages = array_map(function ($message) use ($memoryUsage, $timeSpent) {
+            $messages = array_map(function ($message) use ($memoryUsage, $timeSpent): string {
                 return sprintf('[%.1fMiB/%.2fs] %s', $memoryUsage, $timeSpent, $message);
             }, (array) $messages);
         }
@@ -194,7 +194,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function overwrite($messages, $newline = true, $size = null, $verbosity = self::NORMAL)
+    public function overwrite($messages, $newline = true, $size = null, $verbosity = self::NORMAL): void
     {
         $this->doOverwrite($messages, $newline, $size, false, $verbosity);
     }
@@ -202,7 +202,7 @@ class ConsoleIO extends BaseIO
     /**
      * @inheritDoc
      */
-    public function overwriteError($messages, $newline = true, $size = null, $verbosity = self::NORMAL)
+    public function overwriteError($messages, $newline = true, $size = null, $verbosity = self::NORMAL): void
     {
         $this->doOverwrite($messages, $newline, $size, true, $verbosity);
     }
@@ -258,7 +258,7 @@ class ConsoleIO extends BaseIO
      * @param  int         $max
      * @return ProgressBar
      */
-    public function getProgressBar($max = 0)
+    public function getProgressBar($max = 0): \Symfony\Component\Console\Helper\ProgressBar
     {
         return new ProgressBar($this->getErrorOutput(), $max);
     }

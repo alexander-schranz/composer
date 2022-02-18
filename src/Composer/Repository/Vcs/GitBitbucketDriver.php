@@ -205,7 +205,7 @@ class GitBitbucketDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getFileContent($file, $identifier)
+    public function getFileContent($file, $identifier): ?string
     {
         if ($this->fallbackDriver) {
             return $this->fallbackDriver->getFileContent($file, $identifier);
@@ -445,7 +445,7 @@ class GitBitbucketDriver extends VcsDriver
      * @param  string $url
      * @return void
      */
-    protected function setupFallbackDriver($url)
+    protected function setupFallbackDriver($url): void
     {
         $this->fallbackDriver = new GitDriver(
             array('url' => $url),
@@ -461,7 +461,7 @@ class GitBitbucketDriver extends VcsDriver
      * @param  array<array{name: string, href: string}> $cloneLinks
      * @return void
      */
-    protected function parseCloneUrls(array $cloneLinks)
+    protected function parseCloneUrls(array $cloneLinks): void
     {
         foreach ($cloneLinks as $cloneLink) {
             if ($cloneLink['name'] === 'https') {

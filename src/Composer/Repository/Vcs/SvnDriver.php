@@ -57,7 +57,7 @@ class SvnDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->url = $this->baseUrl = rtrim(self::normalizeUrl($this->url), '/');
 

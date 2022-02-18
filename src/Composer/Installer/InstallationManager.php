@@ -63,7 +63,7 @@ class InstallationManager
     /**
      * @return void
      */
-    public function reset()
+    public function reset(): void
     {
         $this->notifiablePackages = array();
         FileDownloader::$downloadMetadata = array();
@@ -76,7 +76,7 @@ class InstallationManager
      *
      * @return void
      */
-    public function addInstaller(InstallerInterface $installer)
+    public function addInstaller(InstallerInterface $installer): void
     {
         array_unshift($this->installers, $installer);
         $this->cache = array();
@@ -89,7 +89,7 @@ class InstallationManager
      *
      * @return void
      */
-    public function removeInstaller(InstallerInterface $installer)
+    public function removeInstaller(InstallerInterface $installer): void
     {
         if (false !== ($key = array_search($installer, $this->installers, true))) {
             array_splice($this->installers, $key, 1);
@@ -106,7 +106,7 @@ class InstallationManager
      *
      * @return void
      */
-    public function disablePlugins()
+    public function disablePlugins(): void
     {
         foreach ($this->installers as $i => $installer) {
             if (!$installer instanceof PluginInstaller) {
@@ -167,7 +167,7 @@ class InstallationManager
      *
      * @return void
      */
-    public function ensureBinariesPresence(PackageInterface $package)
+    public function ensureBinariesPresence(PackageInterface $package): void
     {
         try {
             $installer = $this->getInstaller($package->getType());
@@ -199,18 +199,18 @@ class InstallationManager
 
         $loop = $this->loop;
         $io = $this->io;
-        $runCleanup = function () use (&$cleanupPromises, $loop) {
+        $runCleanup = function () use (&$cleanupPromises, $loop): void {
             $promises = array();
 
             $loop->abortJobs();
 
             foreach ($cleanupPromises as $cleanup) {
-                $promises[] = new \React\Promise\Promise(function ($resolve, $reject) use ($cleanup) {
+                $promises[] = new \React\Promise\Promise(function ($resolve, $reject) use ($cleanup): void {
                     $promise = $cleanup();
                     if (!$promise instanceof PromiseInterface) {
                         $resolve();
                     } else {
-                        $promise->then(function () use ($resolve) {
+                        $promise->then(function () use ($resolve): void {
                             $resolve();
                         });
                     }
@@ -229,7 +229,7 @@ class InstallationManager
         if ($handleInterruptsUnix) {
             pcntl_async_signals(true);
             $prevHandler = pcntl_signal_get_handler(SIGINT);
-            pcntl_signal(SIGINT, function ($sig) use ($runCleanup, $prevHandler, $io) {
+            pcntl_signal(SIGINT, function ($sig) use ($runCleanup, $prevHandler, $io): void {
                 $io->writeError('Received SIGINT, aborting', true, IOInterface::DEBUG);
                 $runCleanup();
 
@@ -241,7 +241,7 @@ class InstallationManager
             });
         }
         if ($handleInterruptsWindows) {
-            $windowsHandler = function ($event) use ($runCleanup, $io) {
+            $windowsHandler = function ($event) use ($runCleanup, $io): void {
                 if ($event !== PHP_WINDOWS_EVENT_CTRL_C) {
                     return;
                 }
@@ -446,15 +446,15 @@ class InstallationManager
             $promise = $promise->then(function () use ($opType, $repo, $operation) {
                 return $this->$opType($repo, $operation);
             })->then($cleanupPromises[$index])
-            ->then(function () use ($devMode, $repo) {
+            ->then(function () use ($devMode, $repo): void {
                 $repo->write($devMode, $this);
-            }, function ($e) use ($opType, $package, $io) {
+            }, function ($e) use ($opType, $package, $io): void {
                 $io->writeError('    <error>' . ucfirst($opType) .' of '.$package->getPrettyName().' failed</error>');
 
                 throw $e;
             });
 
-            $postExecCallbacks[] = function () use ($opType, $runScripts, $dispatcher, $devMode, $repo, $allOperations, $operation) {
+            $postExecCallbacks[] = function () use ($opType, $runScripts, $dispatcher, $devMode, $repo, $allOperations, $operation): void {
                 $event = 'Composer\Installer\PackageEvents::POST_PACKAGE_'.strtoupper($opType);
                 if (defined($event) && $runScripts && $dispatcher) {
                     $dispatcher->dispatchPackageEvent(constant($event), $devMode, $repo, $allOperations, $operation);
@@ -548,7 +548,7 @@ class InstallationManager
             }
 
             $installer = $this->getInstaller($targetType);
-            $promise = $promise->then(function () use ($installer, $repo, $target) {
+            $promise = $promise->then(function () use ($installer, $repo, $target): ?\React\Promise\PromiseInterface {
                 return $installer->install($repo, $target);
             });
         }
@@ -564,7 +564,7 @@ class InstallationManager
      *
      * @return PromiseInterface|null
      */
-    public function uninstall(InstalledRepositoryInterface $repo, UninstallOperation $operation)
+    public function uninstall(InstalledRepositoryInterface $repo, UninstallOperation $operation): ?\React\Promise\PromiseInterface
     {
         $package = $operation->getPackage();
         $installer = $this->getInstaller($package->getType());
@@ -580,7 +580,7 @@ class InstallationManager
      *
      * @return void
      */
-    public function markAliasInstalled(InstalledRepositoryInterface $repo, MarkAliasInstalledOperation $operation)
+    public function markAliasInstalled(InstalledRepositoryInterface $repo, MarkAliasInstalledOperation $operation): void
     {
         $package = $operation->getPackage();
 
@@ -597,7 +597,7 @@ class InstallationManager
      *
      * @return void
      */
-    public function markAliasUninstalled(InstalledRepositoryInterface $repo, MarkAliasUninstalledOperation $operation)
+    public function markAliasUninstalled(InstalledRepositoryInterface $repo, MarkAliasUninstalledOperation $operation): void
     {
         $package = $operation->getPackage();
 
@@ -610,7 +610,7 @@ class InstallationManager
      * @param  PackageInterface $package
      * @return string           path
      */
-    public function getInstallPath(PackageInterface $package)
+    public function getInstallPath(PackageInterface $package): string
     {
         $installer = $this->getInstaller($package->getType());
 
@@ -622,7 +622,7 @@ class InstallationManager
      *
      * @return void
      */
-    public function setOutputProgress($outputProgress)
+    public function setOutputProgress($outputProgress): void
     {
         $this->outputProgress = $outputProgress;
     }
@@ -630,7 +630,7 @@ class InstallationManager
     /**
      * @return void
      */
-    public function notifyInstalls(IOInterface $io)
+    public function notifyInstalls(IOInterface $io): void
     {
         $promises = array();
 

@@ -165,7 +165,7 @@ abstract class VcsDriver implements VcsDriverInterface
      * @return Response
      * @throws TransportException
      */
-    protected function getContents($url)
+    protected function getContents($url): \Composer\Util\Http\Response
     {
         $options = $this->repoConfig['options'] ?? array();
 
@@ -175,7 +175,7 @@ abstract class VcsDriver implements VcsDriverInterface
     /**
      * @inheritDoc
      */
-    public function cleanup()
+    public function cleanup(): void
     {
         return;
     }

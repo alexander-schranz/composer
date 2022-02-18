@@ -115,7 +115,7 @@ class InstalledVersions
      * @param  string|null   $constraint  A version constraint to check for, if you pass one you have to make sure composer/semver is required by your package
      * @return bool
      */
-    public static function satisfies(VersionParser $parser, $packageName, $constraint)
+    public static function satisfies(VersionParser $parser, $packageName, $constraint): bool
     {
         $constraint = $parser->parseConstraints($constraint);
         $provided = $parser->parseConstraints(self::getVersionRanges($packageName));
@@ -132,7 +132,7 @@ class InstalledVersions
      * @param  string $packageName
      * @return string Version constraint usable with composer/semver
      */
-    public static function getVersionRanges($packageName)
+    public static function getVersionRanges($packageName): string
     {
         foreach (self::getInstalled() as $installed) {
             if (!isset($installed['versions'][$packageName])) {
@@ -280,7 +280,7 @@ class InstalledVersions
      * @return array[]
      * @psalm-return list<array{root: array{name: string, version: string, reference: string, pretty_version: string, aliases: string[], dev: bool, install_path: string, type: string}, versions: array<string, array{dev_requirement: bool, pretty_version?: string, version?: string, aliases?: string[], reference?: string, replaced?: string[], provided?: string[], install_path?: string, type?: string}>}>
      */
-    public static function getAllRawData()
+    public static function getAllRawData(): array
     {
         return self::getInstalled();
     }
@@ -303,7 +303,7 @@ class InstalledVersions
      *
      * @psalm-param array{root: array{name: string, version: string, reference: string, pretty_version: string, aliases: string[], dev: bool, install_path: string, type: string}, versions: array<string, array{dev_requirement: bool, pretty_version?: string, version?: string, aliases?: string[], reference?: string, replaced?: string[], provided?: string[], install_path?: string, type?: string}>} $data
      */
-    public static function reload($data)
+    public static function reload($data): void
     {
         self::$installed = $data;
         self::$installedByVendor = array();

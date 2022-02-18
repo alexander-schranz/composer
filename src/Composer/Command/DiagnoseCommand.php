@@ -52,7 +52,7 @@ class DiagnoseCommand extends BaseCommand
     /**
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('diagnose')
@@ -511,7 +511,7 @@ EOT
     private function checkPlatform()
     {
         $output = '';
-        $out = function ($msg, $style) use (&$output) {
+        $out = function ($msg, $style) use (&$output): void {
             $output .= '<'.$style.'>'.$msg.'</'.$style.'>'.PHP_EOL;
         };
 

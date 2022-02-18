@@ -129,7 +129,7 @@ abstract class BaseCommand extends Command
     /**
      * @return void
      */
-    public function setComposer(Composer $composer)
+    public function setComposer(Composer $composer): void
     {
         $this->composer = $composer;
     }
@@ -139,7 +139,7 @@ abstract class BaseCommand extends Command
      *
      * @return void
      */
-    public function resetComposer()
+    public function resetComposer(): void
     {
         $this->composer = null;
         $this->getApplication()->resetComposer();
@@ -177,7 +177,7 @@ abstract class BaseCommand extends Command
     /**
      * @return void
      */
-    public function setIO(IOInterface $io)
+    public function setIO(IOInterface $io): void
     {
         $this->io = $io;
     }
@@ -187,7 +187,7 @@ abstract class BaseCommand extends Command
      *
      * @return void
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         // initialize a plugin-enabled Composer instance, either local or global
         $disablePlugins = $input->hasParameterOption('--no-plugins');
@@ -321,7 +321,7 @@ abstract class BaseCommand extends Command
      *
      * @return list<array{name: string, version?: string}>
      */
-    protected function normalizeRequirements(array $requirements)
+    protected function normalizeRequirements(array $requirements): array
     {
         $parser = new VersionParser();
 
@@ -333,7 +333,7 @@ abstract class BaseCommand extends Command
      *
      * @return void
      */
-    protected function renderTable(array $table, OutputInterface $output)
+    protected function renderTable(array $table, OutputInterface $output): void
     {
         $renderer = new Table($output);
         $renderer->setStyle('compact');

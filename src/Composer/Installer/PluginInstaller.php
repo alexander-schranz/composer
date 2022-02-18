@@ -46,7 +46,7 @@ class PluginInstaller extends LibraryInstaller
     /**
      * @inheritDoc
      */
-    public function download(PackageInterface $package, PackageInterface $prevPackage = null)
+    public function download(PackageInterface $package, PackageInterface $prevPackage = null): ?\React\Promise\PromiseInterface
     {
         $extra = $package->getExtra();
         if (empty($extra['class'])) {
@@ -66,7 +66,7 @@ class PluginInstaller extends LibraryInstaller
             $promise = \React\Promise\resolve();
         }
 
-        return $promise->then(function () use ($package, $repo) {
+        return $promise->then(function () use ($package, $repo): void {
             try {
                 Platform::workaroundFilesystemIssues();
                 $this->getPluginManager()->registerPackage($package, true);
@@ -86,7 +86,7 @@ class PluginInstaller extends LibraryInstaller
             $promise = \React\Promise\resolve();
         }
 
-        return $promise->then(function () use ($initial, $target, $repo) {
+        return $promise->then(function () use ($initial, $target, $repo): void {
             try {
                 Platform::workaroundFilesystemIssues();
                 $this->getPluginManager()->deactivatePackage($initial);
@@ -97,7 +97,7 @@ class PluginInstaller extends LibraryInstaller
         });
     }
 
-    public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
+    public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package): ?\React\Promise\PromiseInterface
     {
         $this->getPluginManager()->uninstallPackage($package);
 

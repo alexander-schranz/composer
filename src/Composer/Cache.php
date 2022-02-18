@@ -66,7 +66,7 @@ class Cache
      *
      * @return void
      */
-    public function setReadOnly($readOnly)
+    public function setReadOnly($readOnly): void
     {
         $this->readOnly = (bool) $readOnly;
     }
@@ -372,7 +372,7 @@ class Cache
     /**
      * @return Finder
      */
-    protected function getFinder()
+    protected function getFinder(): \Symfony\Component\Finder\Finder
     {
         return Finder::create()->in($this->root)->files();
     }

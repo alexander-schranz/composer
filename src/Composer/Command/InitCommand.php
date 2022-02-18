@@ -47,7 +47,7 @@ class InitCommand extends BaseCommand
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('init')
@@ -511,7 +511,7 @@ EOT
         }
 
         $namespace = array_map(
-            function ($part) {
+            function ($part): string {
                 $part = Preg::replace('/[^a-z0-9]/i', ' ', $part);
                 $part = ucwords($part);
 
@@ -591,7 +591,7 @@ EOT
      *
      * @return void
      */
-    protected function addVendorIgnore($ignoreFile, $vendor = '/vendor/')
+    protected function addVendorIgnore($ignoreFile, $vendor = '/vendor/'): void
     {
         $contents = "";
         if (file_exists($ignoreFile)) {

@@ -146,7 +146,7 @@ class ArrayRepository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function search($query, $mode = 0, $type = null)
+    public function search($query, $mode = 0, $type = null): array
     {
         if ($mode === self::SEARCH_FULLTEXT) {
             $regex = '{(?:'.implode('|', Preg::split('{\s+}', preg_quote($query))).')}i';
@@ -266,7 +266,7 @@ class ArrayRepository implements RepositoryInterface
      *
      * @return AliasPackage|CompleteAliasPackage
      */
-    protected function createAliasPackage(BasePackage $package, $alias, $prettyAlias)
+    protected function createAliasPackage(BasePackage $package, $alias, $prettyAlias): \Composer\Package\AliasPackage
     {
         while ($package instanceof AliasPackage) {
             $package = $package->getAliasOf();
@@ -286,7 +286,7 @@ class ArrayRepository implements RepositoryInterface
      *
      * @return void
      */
-    public function removePackage(PackageInterface $package)
+    public function removePackage(PackageInterface $package): void
     {
         $packageId = $package->getUniqueName();
 
@@ -337,7 +337,7 @@ class ArrayRepository implements RepositoryInterface
      *
      * @return void
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         $this->packages = array();
     }

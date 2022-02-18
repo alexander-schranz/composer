@@ -118,7 +118,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
             throw new \InvalidArgumentException('The given package is missing url information');
         }
 
-        $cacheKeyGenerator = function (PackageInterface $package, $key) {
+        $cacheKeyGenerator = function (PackageInterface $package, $key): string {
             $cacheKey = sha1($key);
 
             return $package->getName().'/'.$cacheKey.'.'.$package->getDistType();
@@ -195,7 +195,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
                     ->then($accept, $reject);
             }
 
-            return $result->then(function ($result) use ($fileName, $checksum, $url, $package, $eventDispatcher) {
+            return $result->then(function ($result) use ($fileName, $checksum, $url, $package, $eventDispatcher): string {
                 // in case of retry, the first call's Promise chain finally calls this twice at the end,
                 // once with $result being the returned $fileName from $accept, and then once for every
                 // failed request with a null result, which can be skipped.
@@ -221,7 +221,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
             });
         };
 
-        $accept = function ($response) use ($cache, $package, $fileName, &$urls) {
+        $accept = function ($response) use ($cache, $package, $fileName, &$urls): string {
             $url = reset($urls);
             $cacheKey = $url['cacheKey'];
             FileDownloader::$downloadMetadata[$package->getName()] = @filesize($fileName) ?: $response->getHeader('Content-Length') ?: '?';
@@ -362,7 +362,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
     /**
      * @return void
      */
-    protected function clearLastCacheWrite(PackageInterface $package)
+    protected function clearLastCacheWrite(PackageInterface $package): void
     {
         if ($this->cache && isset($this->lastCacheWrites[$package->getName()])) {
             $this->cache->remove($this->lastCacheWrites[$package->getName()]);
@@ -375,7 +375,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
      *
      * @return void
      */
-    protected function addCleanupPath(PackageInterface $package, $path)
+    protected function addCleanupPath(PackageInterface $package, $path): void
     {
         $this->additionalCleanupPaths[$package->getName()][] = $path;
     }
@@ -385,7 +385,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
      *
      * @return void
      */
-    protected function removeCleanupPath(PackageInterface $package, $path)
+    protected function removeCleanupPath(PackageInterface $package, $path): void
     {
         if (isset($this->additionalCleanupPaths[$package->getName()])) {
             $idx = array_search($path, $this->additionalCleanupPaths[$package->getName()]);
@@ -407,7 +407,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
             $promise = \React\Promise\resolve();
         }
 
-        return $promise->then(function () use ($target, $path) {
+        return $promise->then(function () use ($target, $path): ?\React\Promise\PromiseInterface {
             $promise = $this->install($target, $path, false);
 
             return $promise;
@@ -419,14 +419,14 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
      *
      * @param bool $output
      */
-    public function remove(PackageInterface $package, $path, $output = true)
+    public function remove(PackageInterface $package, $path, $output = true): \React\Promise\PromiseInterface
     {
         if ($output) {
             $this->io->writeError("  - " . UninstallOperation::format($package));
         }
         $promise = $this->filesystem->removeDirectoryAsync($path);
 
-        return $promise->then(function ($result) use ($path) {
+        return $promise->then(function ($result) use ($path): void {
             if (!$result) {
                 throw new \RuntimeException('Could not completely delete '.$path.', aborting.');
             }
@@ -440,7 +440,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
      * @param  string           $path    download path
      * @return string           file name
      */
-    protected function getFileName(PackageInterface $package, $path)
+    protected function getFileName(PackageInterface $package, $path): string
     {
         return rtrim($this->config->get('vendor-dir').'/composer/tmp-'.md5($package.spl_object_hash($package)).'.'.pathinfo(parse_url($package->getDistUrl(), PHP_URL_PATH), PATHINFO_EXTENSION), '.');
     }
@@ -482,7 +482,7 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
      * @inheritDoc
      * @throws \RuntimeException
      */
-    public function getLocalChanges(PackageInterface $package, $targetDir)
+    public function getLocalChanges(PackageInterface $package, $targetDir): string
     {
         $prevIO = $this->io;
 

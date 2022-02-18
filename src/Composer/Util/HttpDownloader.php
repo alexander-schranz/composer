@@ -139,7 +139,7 @@ class HttpDownloader
      * @throws TransportException
      * @return Response
      */
-    public function copy($url, $to, $options = array())
+    public function copy($url, $to, $options = array()): \Composer\Util\Http\Response
     {
         list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => $to), true);
         $this->wait($job['id']);
@@ -180,7 +180,7 @@ class HttpDownloader
      * @param  mixed[] $options
      * @return void
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = array_replace_recursive($this->options, $options);
     }
@@ -216,13 +216,13 @@ class HttpDownloader
         $rfs = $this->rfs;
 
         if ($this->canUseCurl($job)) {
-            $resolver = function ($resolve, $reject) use (&$job) {
+            $resolver = function ($resolve, $reject) use (&$job): void {
                 $job['status'] = HttpDownloader::STATUS_QUEUED;
                 $job['resolve'] = $resolve;
                 $job['reject'] = $reject;
             };
         } else {
-            $resolver = function ($resolve, $reject) use (&$job, $rfs) {
+            $resolver = function ($resolve, $reject) use (&$job, $rfs): void {
                 // start job
                 $url = $job['request']['url'];
                 $options = $job['request']['options'];
@@ -248,7 +248,7 @@ class HttpDownloader
 
         $curl = $this->curl;
 
-        $canceler = function () use (&$job, $curl) {
+        $canceler = function () use (&$job, $curl): void {
             if ($job['status'] === HttpDownloader::STATUS_QUEUED) {
                 $job['status'] = HttpDownloader::STATUS_ABORTED;
             }
@@ -270,7 +270,7 @@ class HttpDownloader
             $this->markJobDone();
 
             return $response;
-        }, function ($e) use (&$job) {
+        }, function ($e) use (&$job): void {
             $job['status'] = HttpDownloader::STATUS_FAILED;
             $job['exception'] = $e;
 
@@ -343,7 +343,7 @@ class HttpDownloader
      *
      * @return void
      */
-    public function wait($index = null)
+    public function wait($index = null): void
     {
         do {
             $jobCount = $this->countActiveJobs($index);

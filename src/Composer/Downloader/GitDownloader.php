@@ -114,7 +114,7 @@ class GitDownloader extends VcsDownloader implements DvcsDownloaderInterface
 
         $this->io->writeError($msg);
 
-        $commandCallable = function ($url) use ($path, $command, $cachePath) {
+        $commandCallable = function ($url) use ($path, $command, $cachePath): string {
             return str_replace(
                 array('%url%', '%path%', '%cachePath%', '%sanitizedUrl%'),
                 array(
@@ -172,7 +172,7 @@ class GitDownloader extends VcsDownloader implements DvcsDownloaderInterface
 
         $this->io->writeError($msg);
 
-        $commandCallable = function ($url) use ($ref, $command, $cachePath) {
+        $commandCallable = function ($url) use ($ref, $command, $cachePath): string {
             return str_replace(
                 array('%url%', '%ref%', '%cachePath%', '%sanitizedUrl%'),
                 array(
@@ -358,7 +358,7 @@ class GitDownloader extends VcsDownloader implements DvcsDownloaderInterface
             return parent::cleanChanges($package, $path, $update);
         }
 
-        $changes = array_map(function ($elem) {
+        $changes = array_map(function ($elem): string {
             return '    '.$elem;
         }, Preg::split('{\s*\r?\n\s*}', $changes));
         $this->io->writeError('    <error>'.$package->getPrettyName().' has modified files:</error>');
@@ -505,7 +505,7 @@ class GitDownloader extends VcsDownloader implements DvcsDownloaderInterface
      *
      * @return void
      */
-    protected function updateOriginUrl($path, $url)
+    protected function updateOriginUrl($path, $url): void
     {
         $this->process->execute(sprintf('git remote set-url origin -- %s', ProcessExecutor::escape($url)), $output, $path);
         $this->setPushUrl($path, $url);
@@ -517,7 +517,7 @@ class GitDownloader extends VcsDownloader implements DvcsDownloaderInterface
      *
      * @return void
      */
-    protected function setPushUrl($path, $url)
+    protected function setPushUrl($path, $url): void
     {
         // set push url for github projects
         if (Preg::isMatch('{^(?:https?|git)://'.GitUtil::getGitHubDomainsRegex($this->config).'/([^/]+)/([^/]+?)(?:\.git)?$}', $url, $match)) {
@@ -630,7 +630,7 @@ class GitDownloader extends VcsDownloader implements DvcsDownloaderInterface
     /**
      * @inheritDoc
      */
-    protected function hasMetadataRepository($path)
+    protected function hasMetadataRepository($path): bool
     {
         $path = $this->normalizePath($path);
 

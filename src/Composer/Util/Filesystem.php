@@ -74,7 +74,7 @@ class Filesystem
      *
      * @return void
      */
-    public function emptyDirectory($dir, $ensureDirectoryExists = true)
+    public function emptyDirectory($dir, $ensureDirectoryExists = true): void
     {
         if (is_link($dir) && file_exists($dir)) {
             $this->unlink($dir);
@@ -345,7 +345,7 @@ class Filesystem
      *
      * @return void
      */
-    public function copyThenRemove($source, $target)
+    public function copyThenRemove($source, $target): void
     {
         $this->copy($source, $target);
         if (!is_dir($source)) {
@@ -394,7 +394,7 @@ class Filesystem
      *
      * @return void
      */
-    public function rename($source, $target)
+    public function rename($source, $target): void
     {
         if (true === @rename($source, $target)) {
             return;
@@ -624,7 +624,7 @@ class Filesystem
      * @param  string $path
      * @return bool
      */
-    public static function isLocalPath($path)
+    public static function isLocalPath($path): bool
     {
         return Preg::isMatch('{^(file://(?!//)|/(?!/)|/?[a-z]:[\\\\/]|\.\.[\\\\/]|[a-z0-9_.-]+[\\\\/])}i', $path);
     }
@@ -905,7 +905,7 @@ class Filesystem
      *
      * @return void
      */
-    public function safeCopy($source, $target)
+    public function safeCopy($source, $target): void
     {
         if (!file_exists($target) || !file_exists($source) || !$this->filesAreEqual($source, $target)) {
             $source = fopen($source, 'r');

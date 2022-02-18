@@ -67,7 +67,7 @@ class ShowCommand extends BaseCommand
     /**
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('show')
@@ -223,7 +223,7 @@ EOT
 
             if ($input->getOption('no-dev')) {
                 $packages = $this->filterRequiredPackages($installedRepo, $rootPkg);
-                $repos = $installedRepo = new InstalledRepository(array(new InstalledArrayRepository(array_map(function ($pkg) {
+                $repos = $installedRepo = new InstalledRepository(array(new InstalledArrayRepository(array_map(function ($pkg): \Composer\Package\PackageInterface {
                     return clone $pkg;
                 }, $packages))));
             }
@@ -320,7 +320,7 @@ EOT
         if ($input->getOption('tree')) {
             $rootRequires = $this->getRootRequires();
             $packages = $installedRepo->getPackages();
-            usort($packages, function (BasePackage $a, BasePackage $b) {
+            usort($packages, function (BasePackage $a, BasePackage $b): int {
                 return strcmp((string) $a, (string) $b);
             });
             $arrayTree = array();
@@ -602,7 +602,7 @@ EOT
     /**
      * @return string[]
      */
-    protected function getRootRequires()
+    protected function getRootRequires(): array
     {
         $rootPackage = $this->requireComposer()->getPackage();
 
@@ -615,7 +615,7 @@ EOT
     /**
      * @return array|string|string[]
      */
-    protected function getVersionStyle(PackageInterface $latestPackage, PackageInterface $package)
+    protected function getVersionStyle(PackageInterface $latestPackage, PackageInterface $package): string
     {
         return $this->updateStatusToVersionStyle($this->getUpdateStatus($latestPackage, $package));
     }
@@ -677,7 +677,7 @@ EOT
      *
      * @return void
      */
-    protected function printPackageInfo(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo, PackageInterface $latestPackage = null)
+    protected function printPackageInfo(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo, PackageInterface $latestPackage = null): void
     {
         $io = $this->getIO();
 
@@ -705,7 +705,7 @@ EOT
      *
      * @return void
      */
-    protected function printMeta(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo, PackageInterface $latestPackage = null)
+    protected function printMeta(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo, PackageInterface $latestPackage = null): void
     {
         $io = $this->getIO();
         $io->write('<info>name</info>     : ' . $package->getPrettyName());
@@ -773,7 +773,7 @@ EOT
      *
      * @return void
      */
-    protected function printVersions(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo)
+    protected function printVersions(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo): void
     {
         $versions = array_keys($versions);
         $versions = Semver::rsort($versions);
@@ -802,7 +802,7 @@ EOT
      *
      * @return void
      */
-    protected function printLinks(CompletePackageInterface $package, $linkType, $title = null)
+    protected function printLinks(CompletePackageInterface $package, $linkType, $title = null): void
     {
         $title = $title ?: $linkType;
         $io = $this->getIO();
@@ -820,7 +820,7 @@ EOT
      *
      * @return void
      */
-    protected function printLicenses(CompletePackageInterface $package)
+    protected function printLicenses(CompletePackageInterface $package): void
     {
         $spdxLicenses = new SpdxLicenses();
 
@@ -852,7 +852,7 @@ EOT
      *
      * @return void
      */
-    protected function printPackageInfoAsJson(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo, PackageInterface $latestPackage = null)
+    protected function printPackageInfoAsJson(CompletePackageInterface $package, array $versions, InstalledRepository $installedRepo, PackageInterface $latestPackage = null): void
     {
         $json = array(
             'name' => $package->getPrettyName(),
@@ -1030,7 +1030,7 @@ EOT
      *
      * @return void
      */
-    protected function initStyles(OutputInterface $output)
+    protected function initStyles(OutputInterface $output): void
     {
         $this->colors = array(
             'green',
@@ -1052,7 +1052,7 @@ EOT
      * @param array<int, array<string, string|mixed[]>> $arrayTree
      * @return void
      */
-    protected function displayPackageTree(array $arrayTree)
+    protected function displayPackageTree(array $arrayTree): void
     {
         $io = $this->getIO();
         foreach ($arrayTree as $package) {
@@ -1149,7 +1149,7 @@ EOT
         array $packagesInTree,
         $previousTreeBar = '├',
         $level = 1
-    ) {
+    ): void {
         $previousTreeBar = str_replace('├', '│', $previousTreeBar);
         if (is_array($package) && isset($package['requires'])) {
             $requires = $package['requires'];

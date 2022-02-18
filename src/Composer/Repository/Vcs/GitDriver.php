@@ -151,7 +151,7 @@ class GitDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function getChangeDate($identifier)
+    public function getChangeDate($identifier): \DateTime
     {
         $this->process->execute(sprintf(
             'git -c log.showSignature=false log -1 --format=%%at %s',
@@ -234,7 +234,7 @@ class GitDriver extends VcsDriver
         GitUtil::cleanEnv();
 
         try {
-            $gitUtil->runCommand(function ($url) {
+            $gitUtil->runCommand(function ($url): string {
                 return 'git ls-remote --heads -- ' . ProcessExecutor::escape($url);
             }, $url, sys_get_temp_dir());
         } catch (\RuntimeException $e) {

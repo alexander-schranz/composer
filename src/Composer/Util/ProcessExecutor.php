@@ -68,7 +68,7 @@ class ProcessExecutor
      * @param  ?string $cwd     the working directory
      * @return int     statuscode
      */
-    public function execute($command, &$output = null, $cwd = null)
+    public function execute($command, &$output = null, $cwd = null): int
     {
         if (func_num_args() > 1) {
             return $this->doExecute($command, $cwd, false, $output);
@@ -84,7 +84,7 @@ class ProcessExecutor
      * @param  ?string $cwd     the working directory
      * @return int     statuscode
      */
-    public function executeTty($command, $cwd = null)
+    public function executeTty($command, $cwd = null): int
     {
         if (Platform::isTty()) {
             return $this->doExecute($command, $cwd, true);
@@ -153,13 +153,13 @@ class ProcessExecutor
             'cwd' => $cwd,
         );
 
-        $resolver = function ($resolve, $reject) use (&$job) {
+        $resolver = function ($resolve, $reject) use (&$job): void {
             $job['status'] = ProcessExecutor::STATUS_QUEUED;
             $job['resolve'] = $resolve;
             $job['reject'] = $reject;
         };
 
-        $canceler = function () use (&$job) {
+        $canceler = function () use (&$job): void {
             if ($job['status'] === ProcessExecutor::STATUS_QUEUED) {
                 $job['status'] = ProcessExecutor::STATUS_ABORTED;
             }
@@ -190,7 +190,7 @@ class ProcessExecutor
             $this->markJobDone();
 
             return $job['process'];
-        }, function ($e) use (&$job) {
+        }, function ($e) use (&$job): void {
             $job['status'] = ProcessExecutor::STATUS_FAILED;
 
             $this->markJobDone();
@@ -253,7 +253,7 @@ class ProcessExecutor
      * @param  ?int $index job id
      * @return void
      */
-    public function wait($index = null)
+    public function wait($index = null): void
     {
         while (true) {
             if (!$this->countActiveJobs($index)) {
@@ -349,7 +349,7 @@ class ProcessExecutor
      *
      * @return void
      */
-    public function outputHandler($type, $buffer)
+    public function outputHandler($type, $buffer): void
     {
         if ($this->captureOutput) {
             return;
@@ -380,7 +380,7 @@ class ProcessExecutor
      * @param  int  $timeout the timeout in seconds
      * @return void
      */
-    public static function setTimeout($timeout)
+    public static function setTimeout($timeout): void
     {
         static::$timeout = $timeout;
     }
@@ -392,7 +392,7 @@ class ProcessExecutor
      *
      * @return string The escaped argument
      */
-    public static function escape($argument)
+    public static function escape($argument): string
     {
         return self::escapeArgument($argument);
     }
@@ -407,7 +407,7 @@ class ProcessExecutor
         }
 
         $commandString = is_string($command) ? $command : implode(' ', array_map(self::class.'::escape', $command));
-        $safeCommand = Preg::replaceCallback('{://(?P<user>[^:/\s]+):(?P<password>[^@\s/]+)@}i', function ($m) {
+        $safeCommand = Preg::replaceCallback('{://(?P<user>[^:/\s]+):(?P<password>[^@\s/]+)@}i', function ($m): string {
             // if the username looks like a long (12char+) hex string, or a modern github token (e.g. ghp_xxx) we obfuscate that
             if (Preg::isMatch('{^([a-f0-9]{12,}|gh[a-z]_[a-zA-Z0-9_]+)$}', $m['user'])) {
                 return '://***:***@';

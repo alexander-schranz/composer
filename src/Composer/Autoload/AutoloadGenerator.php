@@ -89,7 +89,7 @@ class AutoloadGenerator
      * @param bool $devMode
      * @return void
      */
-    public function setDevMode($devMode = true)
+    public function setDevMode($devMode = true): void
     {
         $this->devMode = (bool) $devMode;
     }
@@ -100,7 +100,7 @@ class AutoloadGenerator
      * @param bool $classMapAuthoritative
      * @return void
      */
-    public function setClassMapAuthoritative($classMapAuthoritative)
+    public function setClassMapAuthoritative($classMapAuthoritative): void
     {
         $this->classMapAuthoritative = (bool) $classMapAuthoritative;
     }
@@ -112,7 +112,7 @@ class AutoloadGenerator
      * @param string|null $apcuPrefix
      * @return void
      */
-    public function setApcu($apcu, $apcuPrefix = null)
+    public function setApcu($apcu, $apcuPrefix = null): void
     {
         $this->apcu = (bool) $apcu;
         $this->apcuPrefix = $apcuPrefix !== null ? (string) $apcuPrefix : $apcuPrefix;
@@ -124,7 +124,7 @@ class AutoloadGenerator
      * @param bool $runScripts
      * @return void
      */
-    public function setRunScripts($runScripts = true)
+    public function setRunScripts($runScripts = true): void
     {
         $this->runScripts = (bool) $runScripts;
     }
@@ -141,7 +141,7 @@ class AutoloadGenerator
      *
      * @deprecated use setPlatformRequirementFilter instead
      */
-    public function setIgnorePlatformRequirements($ignorePlatformReqs)
+    public function setIgnorePlatformRequirements($ignorePlatformReqs): void
     {
         trigger_error('AutoloadGenerator::setIgnorePlatformRequirements is deprecated since Composer 2.2, use setPlatformRequirementFilter instead.', E_USER_DEPRECATED);
 
@@ -151,7 +151,7 @@ class AutoloadGenerator
     /**
      * @return void
      */
-    public function setPlatformRequirementFilter(PlatformRequirementFilterInterface $platformRequirementFilter)
+    public function setPlatformRequirementFilter(PlatformRequirementFilterInterface $platformRequirementFilter): void
     {
         $this->platformRequirementFilter = $platformRequirementFilter;
     }
@@ -163,7 +163,7 @@ class AutoloadGenerator
      * @return int
      * @throws \Seld\JsonLint\ParsingException
      */
-    public function dump(Config $config, InstalledRepositoryInterface $localRepo, RootPackageInterface $rootPackage, InstallationManager $installationManager, $targetDir, $scanPsrPackages = false, $suffix = '')
+    public function dump(Config $config, InstalledRepositoryInterface $localRepo, RootPackageInterface $rootPackage, InstallationManager $installationManager, $targetDir, $scanPsrPackages = false, $suffix = ''): int
     {
         if ($this->classMapAuthoritative) {
             // Force scanPsrPackages when classmap is authoritative
@@ -290,7 +290,7 @@ EOF;
         $mainAutoload = $rootPackage->getAutoload();
         if ($rootPackage->getTargetDir() && !empty($mainAutoload['psr-0'])) {
             $levels = substr_count($filesystem->normalizePath($rootPackage->getTargetDir()), '/') + 1;
-            $prefixes = implode(', ', array_map(function ($prefix) {
+            $prefixes = implode(', ', array_map(function ($prefix): string {
                 return var_export($prefix, true);
             }, array_keys($mainAutoload['psr-0'])));
             $baseDirFromTargetDirCode = $filesystem->findShortestPathCode($targetDir, $basePath, true);
@@ -554,7 +554,7 @@ EOF;
     {
         $rootPackageMap = array_shift($packageMap);
         if (is_array($filteredDevPackages)) {
-            $packageMap = array_filter($packageMap, function ($item) use ($filteredDevPackages) {
+            $packageMap = array_filter($packageMap, function ($item) use ($filteredDevPackages): bool {
                 return !in_array($item[0]->getName(), $filteredDevPackages, true);
             });
         } elseif ($filteredDevPackages) {
@@ -808,7 +808,7 @@ EOF;
 
         ksort($requiredExtensions);
 
-        $formatToPhpVersionId = function (Bound $bound) {
+        $formatToPhpVersionId = function (Bound $bound): int {
             if ($bound->isZero()) {
                 return 0;
             }
@@ -1229,7 +1229,7 @@ INITIALIZER;
                         $updir = null;
                         $path = Preg::replaceCallback(
                             '{^((?:(?:\\\\\\.){1,2}+/)+)}',
-                            function ($matches) use (&$updir) {
+                            function ($matches) use (&$updir): string {
                                 if (isset($matches[1])) {
                                     // undo preg_quote for the matched string
                                     $updir = str_replace('\\.', '.', $matches[1]);
@@ -1300,7 +1300,7 @@ INITIALIZER;
             }
         }
 
-        $add = function (PackageInterface $package) use (&$add, $packages, &$include, $replacedBy) {
+        $add = function (PackageInterface $package) use (&$add, $packages, &$include, $replacedBy): void {
             foreach ($package->getRequires() as $link) {
                 $target = $link->getTarget();
                 if (isset($replacedBy[$target])) {
@@ -1318,7 +1318,7 @@ INITIALIZER;
 
         return array_filter(
             $packageMap,
-            function ($item) use ($include) {
+            function ($item) use ($include): bool {
                 $package = $item[0];
                 foreach ($package->getNames() as $name) {
                     if (isset($include[$name])) {
@@ -1369,7 +1369,7 @@ INITIALIZER;
  * @param string $file
  * @return void
  */
-function composerRequire($fileIdentifier, $file)
+function composerRequire($fileIdentifier, $file): void
 {
     if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
         $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;

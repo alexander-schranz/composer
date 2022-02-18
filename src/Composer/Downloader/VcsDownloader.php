@@ -200,7 +200,7 @@ abstract class VcsDownloader implements DownloaderInterface, ChangeReportInterfa
             }
 
             if (trim($logs)) {
-                $logs = implode("\n", array_map(function ($line) {
+                $logs = implode("\n", array_map(function ($line): string {
                     return '      ' . $line;
                 }, explode("\n", $logs)));
 
@@ -222,7 +222,7 @@ abstract class VcsDownloader implements DownloaderInterface, ChangeReportInterfa
     /**
      * @inheritDoc
      */
-    public function remove(PackageInterface $package, $path)
+    public function remove(PackageInterface $package, $path): \React\Promise\PromiseInterface
     {
         $this->io->writeError("  - " . UninstallOperation::format($package));
 
@@ -283,7 +283,7 @@ abstract class VcsDownloader implements DownloaderInterface, ChangeReportInterfa
      *
      * @throws \RuntimeException in case the operation must be aborted or the patch does not apply cleanly
      */
-    protected function reapplyChanges($path)
+    protected function reapplyChanges($path): void
     {
     }
 

@@ -42,7 +42,7 @@ class WritableArrayRepository extends ArrayRepository implements WritableReposit
     /**
      * @inheritDoc
      */
-    public function setDevPackageNames(array $devPackageNames)
+    public function setDevPackageNames(array $devPackageNames): void
     {
         $this->devPackageNames = $devPackageNames;
     }
@@ -58,7 +58,7 @@ class WritableArrayRepository extends ArrayRepository implements WritableReposit
     /**
      * @inheritDoc
      */
-    public function write($devMode, InstallationManager $installationManager)
+    public function write($devMode, InstallationManager $installationManager): void
     {
         $this->devMode = $devMode;
     }
@@ -66,7 +66,7 @@ class WritableArrayRepository extends ArrayRepository implements WritableReposit
     /**
      * @inheritDoc
      */
-    public function reload()
+    public function reload(): void
     {
         $this->devMode = null;
     }
