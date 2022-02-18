@@ -27,8 +27,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(AddClosureReturnTypeRector::class);
     $services->set(AddReturnTypeDeclarationRector::class);
     $services->set(AddVoidReturnTypeWhereNoReturnRector::class);
-    $services->set(ReturnTypeDeclarationRector::class);
     $services->set(ReturnTypeFromReturnNewRector::class);
     $services->set(ReturnTypeFromStrictTypedCallRector::class);
     $services->set(ReturnTypeFromStrictTypedPropertyRector::class);
+
+    // $services->set(ReturnTypeDeclarationRector::class); // would change phpdocs
 };
