@@ -331,7 +331,7 @@ class DownloadManager
         // we wipe the dir and do a new install instead of updating it
         $promise = $initialDownloader->remove($initial, $targetDir);
         if ($promise) {
-            return $promise->then(function ($res) use ($target, $targetDir) {
+            return $promise->then(function ($res) use ($target, $targetDir): ?\React\Promise\PromiseInterface {
                 return $this->install($target, $targetDir);
             });
         }
@@ -432,7 +432,7 @@ class DownloadManager
             && !(!$prevPackage->isDev() && $prevPackage->getInstallationSource() === 'dist' && $package->isDev())
         ) {
             $prevSource = $prevPackage->getInstallationSource();
-            usort($sources, function ($a, $b) use ($prevSource) {
+            usort($sources, function ($a, $b) use ($prevSource): int {
                 return $a === $prevSource ? -1 : 1;
             });
 
