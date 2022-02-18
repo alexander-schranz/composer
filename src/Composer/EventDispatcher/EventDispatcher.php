@@ -97,7 +97,7 @@ class EventDispatcher
      * @return int    return code of the executed script if any, for php scripts a false return
      *                          value is changed to 1, anything else to 0
      */
-    public function dispatch($eventName, Event $event = null)
+    public function dispatch($eventName, Event $event = null): int
     {
         if (null === $event) {
             $event = new Event($eventName);
@@ -116,7 +116,7 @@ class EventDispatcher
      * @return int                                  return code of the executed script if any, for php scripts a false return
      *                                              value is changed to 1, anything else to 0
      */
-    public function dispatchScript($eventName, $devMode = false, $additionalArgs = array(), $flags = array())
+    public function dispatchScript($eventName, $devMode = false, $additionalArgs = array(), $flags = array()): int
     {
         assert($this->composer instanceof Composer, new \LogicException('This should only be reached with a fully loaded Composer'));
 
@@ -135,7 +135,7 @@ class EventDispatcher
      * @return int return code of the executed script if any, for php scripts a false return
      *             value is changed to 1, anything else to 0
      */
-    public function dispatchPackageEvent($eventName, $devMode, RepositoryInterface $localRepo, array $operations, OperationInterface $operation)
+    public function dispatchPackageEvent($eventName, $devMode, RepositoryInterface $localRepo, array $operations, OperationInterface $operation): int
     {
         assert($this->composer instanceof Composer, new \LogicException('This should only be reached with a fully loaded Composer'));
 
@@ -153,7 +153,7 @@ class EventDispatcher
      * @return int return code of the executed script if any, for php scripts a false return
      *             value is changed to 1, anything else to 0
      */
-    public function dispatchInstallerEvent($eventName, $devMode, $executeOperations, Transaction $transaction)
+    public function dispatchInstallerEvent($eventName, $devMode, $executeOperations, Transaction $transaction): int
     {
         assert($this->composer instanceof Composer, new \LogicException('This should only be reached with a fully loaded Composer'));
 
@@ -343,7 +343,7 @@ class EventDispatcher
      *
      * @return int
      */
-    protected function executeTty($exec)
+    protected function executeTty($exec): int
     {
         if ($this->io->isInteractive()) {
             return $this->process->executeTty($exec);
@@ -398,7 +398,7 @@ class EventDispatcher
      *
      * @return void
      */
-    public function addListener($eventName, $listener, $priority = 0)
+    public function addListener($eventName, $listener, $priority = 0): void
     {
         $this->listeners[$eventName][$priority][] = $listener;
     }
@@ -408,7 +408,7 @@ class EventDispatcher
      *
      * @return void
      */
-    public function removeListener($listener)
+    public function removeListener($listener): void
     {
         foreach ($this->listeners as $eventName => $priorities) {
             foreach ($priorities as $priority => $listeners) {
@@ -430,7 +430,7 @@ class EventDispatcher
      *
      * @return void
      */
-    public function addSubscriber(EventSubscriberInterface $subscriber)
+    public function addSubscriber(EventSubscriberInterface $subscriber): void
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
             if (is_string($params)) {
@@ -543,7 +543,7 @@ class EventDispatcher
      * @throws \RuntimeException
      * @return int
      */
-    protected function pushEvent(Event $event)
+    protected function pushEvent(Event $event): int
     {
         $eventName = $event->getName();
         if (in_array($eventName, $this->eventStack)) {

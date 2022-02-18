@@ -85,7 +85,7 @@ class Perforce
      *
      * @return self
      */
-    public static function create($repoConfig, $port, $path, ProcessExecutor $process, IOInterface $io)
+    public static function create($repoConfig, $port, $path, ProcessExecutor $process, IOInterface $io): \Composer\Util\Perforce
     {
         return new Perforce($repoConfig, $port, $path, $process, Platform::isWindows(), $io);
     }
@@ -106,7 +106,7 @@ class Perforce
      *
      * @return void
      */
-    public function initialize($repoConfig)
+    public function initialize($repoConfig): void
     {
         $this->uniquePerforceClientName = $this->generateUniquePerforceClientName();
         if (!$repoConfig) {
@@ -138,7 +138,7 @@ class Perforce
      *
      * @return void
      */
-    public function initializeDepotAndBranch($depot, $branch)
+    public function initializeDepotAndBranch($depot, $branch): void
     {
         if (isset($depot)) {
             $this->p4Depot = $depot;
@@ -159,7 +159,7 @@ class Perforce
     /**
      * @return void
      */
-    public function cleanupClientSpec()
+    public function cleanupClientSpec(): void
     {
         $client = $this->getClient();
         $task = 'client -d ' . ProcessExecutor::escape($client);
@@ -176,7 +176,7 @@ class Perforce
      *
      * @return int
      */
-    protected function executeCommand($command)
+    protected function executeCommand($command): int
     {
         $this->commandResult = '';
 
@@ -209,7 +209,7 @@ class Perforce
      *
      * @return void
      */
-    public function initializePath($path)
+    public function initializePath($path): void
     {
         $this->path = $path;
         $fs = $this->getFilesystem();
@@ -229,7 +229,7 @@ class Perforce
      *
      * @return void
      */
-    public function setStream($stream)
+    public function setStream($stream): void
     {
         $this->p4Stream = $stream;
         $index = strrpos($stream, '/');
@@ -299,7 +299,7 @@ class Perforce
      *
      * @return void
      */
-    public function setUser($user)
+    public function setUser($user): void
     {
         $this->p4User = $user;
     }
@@ -307,7 +307,7 @@ class Perforce
     /**
      * @return void
      */
-    public function queryP4User()
+    public function queryP4User(): void
     {
         $this->getUser();
         if (strlen((string) $this->p4User) > 0) {
@@ -423,7 +423,7 @@ class Perforce
     /**
      * @return void
      */
-    public function connectClient()
+    public function connectClient(): void
     {
         $p4CreateClientCommand = $this->generateP4Command(
             'client -i < ' . str_replace(" ", "\\ ", $this->getP4ClientSpec())
@@ -436,7 +436,7 @@ class Perforce
      *
      * @return void
      */
-    public function syncCodeBase($sourceReference)
+    public function syncCodeBase($sourceReference): void
     {
         $prevDir = getcwd();
         chdir($this->path);
@@ -453,7 +453,7 @@ class Perforce
      *
      * @return void
      */
-    public function writeClientSpecToFile($spec)
+    public function writeClientSpecToFile($spec): void
     {
         fwrite($spec, 'Client: ' . $this->getClient() . PHP_EOL . PHP_EOL);
         fwrite($spec, 'Update: ' . date('Y/m/d H:i:s') . PHP_EOL . PHP_EOL);
@@ -498,7 +498,7 @@ class Perforce
      *
      * @return void
      */
-    protected function read($pipe, $name)
+    protected function read($pipe, $name): void
     {
         if (feof($pipe)) {
             return;
@@ -514,7 +514,7 @@ class Perforce
      *
      * @return int
      */
-    public function windowsLogin($password)
+    public function windowsLogin($password): int
     {
         $command = $this->generateP4Command(' login -a');
 
@@ -746,7 +746,7 @@ class Perforce
     /**
      * @return void
      */
-    public function setFilesystem(Filesystem $fs)
+    public function setFilesystem(Filesystem $fs): void
     {
         $this->filesystem = $fs;
     }

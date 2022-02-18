@@ -45,7 +45,7 @@ class MetapackageInstaller implements InstallerInterface
     /**
      * @inheritDoc
      */
-    public function isInstalled(InstalledRepositoryInterface $repo, PackageInterface $package)
+    public function isInstalled(InstalledRepositoryInterface $repo, PackageInterface $package): bool
     {
         return $repo->hasPackage($package);
     }

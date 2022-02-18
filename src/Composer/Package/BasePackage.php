@@ -94,7 +94,7 @@ abstract class BasePackage implements PackageInterface
     /**
      * @inheritDoc
      */
-    public function getNames($provides = true)
+    public function getNames($provides = true): array
     {
         $names = array(
             $this->getName() => true,
@@ -116,7 +116,7 @@ abstract class BasePackage implements PackageInterface
     /**
      * @inheritDoc
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -257,7 +257,7 @@ abstract class BasePackage implements PackageInterface
      * @param  non-empty-string $wrap         Wrap the cleaned string by the given string
      * @return non-empty-string
      */
-    public static function packageNameToRegexp($allowPattern, $wrap = '{^%s$}i')
+    public static function packageNameToRegexp($allowPattern, $wrap = '{^%s$}i'): string
     {
         $cleanedAllowPattern = str_replace('\\*', '.*', preg_quote($allowPattern));
 
@@ -271,10 +271,10 @@ abstract class BasePackage implements PackageInterface
      * @param non-empty-string $wrap
      * @return non-empty-string
      */
-    public static function packageNamesToRegexp(array $packageNames, $wrap = '{^(?:%s)$}iD')
+    public static function packageNamesToRegexp(array $packageNames, $wrap = '{^(?:%s)$}iD'): string
     {
         $packageNames = array_map(
-            function ($packageName) {
+            function ($packageName): string {
                 return BasePackage::packageNameToRegexp($packageName, '%s');
             },
             $packageNames

@@ -100,7 +100,7 @@ class RepositoryManager
      *
      * @return void
      */
-    public function addRepository(RepositoryInterface $repository)
+    public function addRepository(RepositoryInterface $repository): void
     {
         $this->repositories[] = $repository;
     }
@@ -114,7 +114,7 @@ class RepositoryManager
      *
      * @return void
      */
-    public function prependRepository(RepositoryInterface $repository)
+    public function prependRepository(RepositoryInterface $repository): void
     {
         array_unshift($this->repositories, $repository);
     }
@@ -162,7 +162,7 @@ class RepositoryManager
      *
      * @return void
      */
-    public function setRepositoryClass($type, $class)
+    public function setRepositoryClass($type, $class): void
     {
         $this->repositoryClasses[$type] = $class;
     }
@@ -184,7 +184,7 @@ class RepositoryManager
      *
      * @return void
      */
-    public function setLocalRepository(InstalledRepositoryInterface $repository)
+    public function setLocalRepository(InstalledRepositoryInterface $repository): void
     {
         $this->localRepository = $repository;
     }

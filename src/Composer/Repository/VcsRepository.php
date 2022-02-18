@@ -121,7 +121,7 @@ class VcsRepository extends ArrayRepository implements ConfigurableRepositoryInt
     /**
      * @return void
      */
-    public function setLoader(LoaderInterface $loader)
+    public function setLoader(LoaderInterface $loader): void
     {
         $this->loader = $loader;
     }

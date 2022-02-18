@@ -588,7 +588,7 @@ class GitHubDriver extends VcsDriver
      *
      * @return void
      */
-    protected function setupGitDriver($url)
+    protected function setupGitDriver($url): void
     {
         $this->gitDriver = new GitDriver(
             array('url' => $url),

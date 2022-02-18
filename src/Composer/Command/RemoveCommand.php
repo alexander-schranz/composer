@@ -35,7 +35,7 @@ class RemoveCommand extends BaseCommand
     /**
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('remove')
@@ -116,7 +116,7 @@ EOT
 
             if (count($input->getArgument('packages')) === 0) {
                 $this->getIO()->writeError('<info>No unused packages to remove</info>');
-                $this->setCode(function () {
+                $this->setCode(function (): int {
                     return 0;
                 });
             }

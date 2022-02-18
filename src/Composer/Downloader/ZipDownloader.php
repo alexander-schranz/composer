@@ -38,7 +38,7 @@ class ZipDownloader extends ArchiveDownloader
     /**
      * @inheritDoc
      */
-    public function download(PackageInterface $package, $path, PackageInterface $prevPackage = null, $output = true)
+    public function download(PackageInterface $package, $path, PackageInterface $prevPackage = null, $output = true): ?\React\Promise\PromiseInterface
     {
         if (null === self::$unzipCommands) {
             self::$unzipCommands = array();
@@ -127,7 +127,7 @@ class ZipDownloader extends ArchiveDownloader
         $executable = $commandSpec[0];
 
         $io = $this->io;
-        $tryFallback = function ($processError) use ($isLastChance, $io, $file, $path, $package, $executable) {
+        $tryFallback = function ($processError) use ($isLastChance, $io, $file, $path, $package, $executable): \React\Promise\PromiseInterface {
             if ($isLastChance) {
                 throw $processError;
             }
@@ -207,7 +207,7 @@ class ZipDownloader extends ArchiveDownloader
      * @param  string                $path Path where to extract file
      * @return PromiseInterface|null
      */
-    protected function extract(PackageInterface $package, $file, $path)
+    protected function extract(PackageInterface $package, $file, $path): \React\Promise\PromiseInterface
     {
         return $this->extractWithSystemUnzip($package, $file, $path);
     }
@@ -219,7 +219,7 @@ class ZipDownloader extends ArchiveDownloader
      * @param  string $file
      * @return string
      */
-    protected function getErrorMessage($retval, $file)
+    protected function getErrorMessage($retval, $file): string
     {
         switch ($retval) {
             case ZipArchive::ER_EXISTS:

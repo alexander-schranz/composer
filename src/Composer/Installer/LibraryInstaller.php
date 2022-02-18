@@ -97,7 +97,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
     /**
      * @inheritDoc
      */
-    public function download(PackageInterface $package, PackageInterface $prevPackage = null)
+    public function download(PackageInterface $package, PackageInterface $prevPackage = null): \React\Promise\PromiseInterface
     {
         $this->initializeVendorDir();
         $downloadPath = $this->getInstallPath($package);
@@ -108,7 +108,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
     /**
      * @inheritDoc
      */
-    public function prepare($type, PackageInterface $package, PackageInterface $prevPackage = null)
+    public function prepare($type, PackageInterface $package, PackageInterface $prevPackage = null): ?\React\Promise\PromiseInterface
     {
         $this->initializeVendorDir();
         $downloadPath = $this->getInstallPath($package);
@@ -119,7 +119,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
     /**
      * @inheritDoc
      */
-    public function cleanup($type, PackageInterface $package, PackageInterface $prevPackage = null)
+    public function cleanup($type, PackageInterface $package, PackageInterface $prevPackage = null): ?\React\Promise\PromiseInterface
     {
         $this->initializeVendorDir();
         $downloadPath = $this->getInstallPath($package);
@@ -148,7 +148,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
         $binaryInstaller = $this->binaryInstaller;
         $installPath = $this->getInstallPath($package);
 
-        return $promise->then(function () use ($binaryInstaller, $installPath, $package, $repo) {
+        return $promise->then(function () use ($binaryInstaller, $installPath, $package, $repo): void {
             $binaryInstaller->installBinaries($package, $installPath);
             if (!$repo->hasPackage($package)) {
                 $repo->addPackage(clone $package);
@@ -176,7 +176,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
         $binaryInstaller = $this->binaryInstaller;
         $installPath = $this->getInstallPath($target);
 
-        return $promise->then(function () use ($binaryInstaller, $installPath, $target, $initial, $repo) {
+        return $promise->then(function () use ($binaryInstaller, $installPath, $target, $initial, $repo): void {
             $binaryInstaller->installBinaries($target, $installPath);
             $repo->removePackage($initial);
             if (!$repo->hasPackage($target)) {
@@ -203,7 +203,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
         $downloadPath = $this->getPackageBasePath($package);
         $filesystem = $this->filesystem;
 
-        return $promise->then(function () use ($binaryInstaller, $filesystem, $downloadPath, $package, $repo) {
+        return $promise->then(function () use ($binaryInstaller, $filesystem, $downloadPath, $package, $repo): void {
             $binaryInstaller->removeBinaries($package);
             $repo->removePackage($package);
 
@@ -234,7 +234,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
      *
      * @param PackageInterface $package Package instance
      */
-    public function ensureBinariesPresence(PackageInterface $package)
+    public function ensureBinariesPresence(PackageInterface $package): void
     {
         $this->binaryInstaller->installBinaries($package, $this->getInstallPath($package), false);
     }
@@ -263,7 +263,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
     /**
      * @return PromiseInterface|null
      */
-    protected function installCode(PackageInterface $package)
+    protected function installCode(PackageInterface $package): ?\React\Promise\PromiseInterface
     {
         $downloadPath = $this->getInstallPath($package);
 
@@ -288,7 +288,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
                     $promise = \React\Promise\resolve();
                 }
 
-                return $promise->then(function () use ($target) {
+                return $promise->then(function () use ($target): ?\React\Promise\PromiseInterface {
                     return $this->installCode($target);
                 });
             }
@@ -302,7 +302,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
     /**
      * @return PromiseInterface|null
      */
-    protected function removeCode(PackageInterface $package)
+    protected function removeCode(PackageInterface $package): ?\React\Promise\PromiseInterface
     {
         $downloadPath = $this->getPackageBasePath($package);
 
@@ -312,7 +312,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
     /**
      * @return void
      */
-    protected function initializeVendorDir()
+    protected function initializeVendorDir(): void
     {
         $this->filesystem->ensureDirectoryExists($this->vendorDir);
         $this->vendorDir = realpath($this->vendorDir);

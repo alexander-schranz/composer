@@ -144,7 +144,7 @@ class SvnDownloader extends VcsDownloader
             return parent::cleanChanges($package, $path, $update);
         }
 
-        $changes = array_map(function ($elem) {
+        $changes = array_map(function ($elem): string {
             return '    '.$elem;
         }, Preg::split('{\s*\r?\n\s*}', $changes));
         $countChanges = count($changes);
@@ -248,7 +248,7 @@ class SvnDownloader extends VcsDownloader
     /**
      * @inheritDoc
      */
-    protected function hasMetadataRepository($path)
+    protected function hasMetadataRepository($path): bool
     {
         return is_dir($path.'/.svn');
     }

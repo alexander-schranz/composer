@@ -34,7 +34,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->depot = $this->repoConfig['depot'];
         $this->branch = '';
@@ -171,7 +171,7 @@ class PerforceDriver extends VcsDriver
     /**
      * @inheritDoc
      */
-    public function cleanup()
+    public function cleanup(): void
     {
         $this->perforce->cleanupClientSpec();
         $this->perforce = null;

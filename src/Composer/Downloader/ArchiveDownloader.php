@@ -34,7 +34,7 @@ abstract class ArchiveDownloader extends FileDownloader
     /**
      * @return PromiseInterface|null
      */
-    public function prepare($type, PackageInterface $package, $path, PackageInterface $prevPackage = null)
+    public function prepare($type, PackageInterface $package, $path, PackageInterface $prevPackage = null): ?\React\Promise\PromiseInterface
     {
         unset($this->cleanupExecuted[$package->getName()]);
 
@@ -44,7 +44,7 @@ abstract class ArchiveDownloader extends FileDownloader
     /**
      * @return PromiseInterface|null
      */
-    public function cleanup($type, PackageInterface $package, $path, PackageInterface $prevPackage = null)
+    public function cleanup($type, PackageInterface $package, $path, PackageInterface $prevPackage = null): ?\React\Promise\PromiseInterface
     {
         $this->cleanupExecuted[$package->getName()] = true;
 
@@ -92,7 +92,7 @@ abstract class ArchiveDownloader extends FileDownloader
 
         $filesystem = $this->filesystem;
 
-        $cleanup = function () use ($path, $filesystem, $temporaryDir, $package) {
+        $cleanup = function () use ($path, $filesystem, $temporaryDir, $package): void {
             // remove cache if the file was corrupted
             $this->clearLastCacheWrite($package);
 
@@ -116,7 +116,7 @@ abstract class ArchiveDownloader extends FileDownloader
             $promise = \React\Promise\resolve();
         }
 
-        return $promise->then(function () use ($package, $filesystem, $fileName, $temporaryDir, $path) {
+        return $promise->then(function () use ($package, $filesystem, $fileName, $temporaryDir, $path): \React\Promise\PromiseInterface {
             $filesystem->unlink($fileName);
 
             /**
@@ -125,7 +125,7 @@ abstract class ArchiveDownloader extends FileDownloader
              * @param  string         $dir Directory
              * @return \SplFileInfo[]
              */
-            $getFolderContent = function ($dir) {
+            $getFolderContent = function ($dir): array {
                 $finder = Finder::create()
                     ->ignoreVCS(false)
                     ->ignoreDotFiles(false)
@@ -200,7 +200,7 @@ abstract class ArchiveDownloader extends FileDownloader
 
             $promise = $filesystem->removeDirectoryAsync($temporaryDir);
 
-            return $promise->then(function () use ($package, $path, $temporaryDir) {
+            return $promise->then(function () use ($package, $path, $temporaryDir): void {
                 $this->removeCleanupPath($package, $temporaryDir);
                 $this->removeCleanupPath($package, $path);
             });

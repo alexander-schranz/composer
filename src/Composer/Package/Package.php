@@ -130,7 +130,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }
@@ -156,7 +156,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setTargetDir($targetDir)
+    public function setTargetDir($targetDir): void
     {
         $this->targetDir = $targetDir;
     }
@@ -178,7 +178,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setExtra(array $extra)
+    public function setExtra(array $extra): void
     {
         $this->extra = $extra;
     }
@@ -196,7 +196,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setBinaries(array $binaries)
+    public function setBinaries(array $binaries): void
     {
         $this->binaries = $binaries;
     }
@@ -214,7 +214,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setInstallationSource($type)
+    public function setInstallationSource($type): void
     {
         $this->installationSource = $type;
     }
@@ -232,7 +232,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setSourceType($type)
+    public function setSourceType($type): void
     {
         $this->sourceType = $type;
     }
@@ -250,7 +250,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setSourceUrl($url)
+    public function setSourceUrl($url): void
     {
         $this->sourceUrl = $url;
     }
@@ -268,7 +268,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setSourceReference($reference)
+    public function setSourceReference($reference): void
     {
         $this->sourceReference = $reference;
     }
@@ -286,7 +286,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setSourceMirrors($mirrors)
+    public function setSourceMirrors($mirrors): void
     {
         $this->sourceMirrors = $mirrors;
     }
@@ -302,7 +302,7 @@ class Package extends BasePackage
     /**
      * @inheritDoc
      */
-    public function getSourceUrls()
+    public function getSourceUrls(): array
     {
         return $this->getUrls($this->sourceUrl, $this->sourceMirrors, $this->sourceReference, $this->sourceType, 'source');
     }
@@ -312,7 +312,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setDistType($type)
+    public function setDistType($type): void
     {
         $this->distType = $type;
     }
@@ -330,7 +330,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setDistUrl($url)
+    public function setDistUrl($url): void
     {
         $this->distUrl = $url;
     }
@@ -348,7 +348,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setDistReference($reference)
+    public function setDistReference($reference): void
     {
         $this->distReference = $reference;
     }
@@ -366,7 +366,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setDistSha1Checksum($sha1checksum)
+    public function setDistSha1Checksum($sha1checksum): void
     {
         $this->distSha1Checksum = $sha1checksum;
     }
@@ -384,7 +384,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setDistMirrors($mirrors)
+    public function setDistMirrors($mirrors): void
     {
         $this->distMirrors = $mirrors;
     }
@@ -400,7 +400,7 @@ class Package extends BasePackage
     /**
      * @inheritDoc
      */
-    public function getDistUrls()
+    public function getDistUrls(): array
     {
         return $this->getUrls($this->distUrl, $this->distMirrors, $this->distReference, $this->distType, 'dist');
     }
@@ -416,7 +416,7 @@ class Package extends BasePackage
     /**
      * @inheritDoc
      */
-    public function setTransportOptions(array $options)
+    public function setTransportOptions(array $options): void
     {
         $this->transportOptions = $options;
     }
@@ -444,7 +444,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setReleaseDate(\DateTime $releaseDate)
+    public function setReleaseDate(\DateTime $releaseDate): void
     {
         $this->releaseDate = $releaseDate;
     }
@@ -464,7 +464,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setRequires(array $requires)
+    public function setRequires(array $requires): void
     {
         if (isset($requires[0])) { // @phpstan-ignore-line
             $requires = $this->convertLinksToMap($requires, 'setRequires');
@@ -488,7 +488,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setConflicts(array $conflicts)
+    public function setConflicts(array $conflicts): void
     {
         if (isset($conflicts[0])) { // @phpstan-ignore-line
             $conflicts = $this->convertLinksToMap($conflicts, 'setConflicts');
@@ -513,7 +513,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setProvides(array $provides)
+    public function setProvides(array $provides): void
     {
         if (isset($provides[0])) { // @phpstan-ignore-line
             $provides = $this->convertLinksToMap($provides, 'setProvides');
@@ -538,7 +538,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setReplaces(array $replaces)
+    public function setReplaces(array $replaces): void
     {
         if (isset($replaces[0])) { // @phpstan-ignore-line
             $replaces = $this->convertLinksToMap($replaces, 'setReplaces');
@@ -563,7 +563,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setDevRequires(array $devRequires)
+    public function setDevRequires(array $devRequires): void
     {
         if (isset($devRequires[0])) { // @phpstan-ignore-line
             $devRequires = $this->convertLinksToMap($devRequires, 'setDevRequires');
@@ -587,7 +587,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setSuggests(array $suggests)
+    public function setSuggests(array $suggests): void
     {
         $this->suggests = $suggests;
     }
@@ -609,7 +609,7 @@ class Package extends BasePackage
      *
      * @phpstan-param AutoloadRules $autoload
      */
-    public function setAutoload(array $autoload)
+    public function setAutoload(array $autoload): void
     {
         $this->autoload = $autoload;
     }
@@ -631,7 +631,7 @@ class Package extends BasePackage
      *
      * @phpstan-param DevAutoloadRules $devAutoload
      */
-    public function setDevAutoload(array $devAutoload)
+    public function setDevAutoload(array $devAutoload): void
     {
         $this->devAutoload = $devAutoload;
     }
@@ -651,7 +651,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setIncludePaths(array $includePaths)
+    public function setIncludePaths(array $includePaths): void
     {
         $this->includePaths = $includePaths;
     }
@@ -671,7 +671,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setNotificationUrl($notificationUrl)
+    public function setNotificationUrl($notificationUrl): void
     {
         $this->notificationUrl = $notificationUrl;
     }
@@ -689,7 +689,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function setIsDefaultBranch($defaultBranch)
+    public function setIsDefaultBranch($defaultBranch): void
     {
         $this->isDefaultBranch = $defaultBranch;
     }
@@ -705,7 +705,7 @@ class Package extends BasePackage
     /**
      * @inheritDoc
      */
-    public function setSourceDistReferences($reference)
+    public function setSourceDistReferences($reference): void
     {
         $this->setSourceReference($reference);
 
@@ -731,7 +731,7 @@ class Package extends BasePackage
      *
      * @return void
      */
-    public function replaceVersion($version, $prettyVersion)
+    public function replaceVersion($version, $prettyVersion): void
     {
         $this->version = $version;
         $this->prettyVersion = $prettyVersion;

@@ -79,7 +79,7 @@ class JsonFile
      *
      * @return bool
      */
-    public function exists()
+    public function exists(): bool
     {
         return is_file($this->path);
     }

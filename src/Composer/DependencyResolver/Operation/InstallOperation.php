@@ -46,7 +46,7 @@ class InstallOperation extends SolverOperation implements OperationInterface
     /**
      * @inheritDoc
      */
-    public function show($lock)
+    public function show($lock): string
     {
         return self::format($this->package, $lock);
     }
