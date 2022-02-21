@@ -548,8 +548,13 @@ class InstallationManager
             }
 
             $installer = $this->getInstaller($targetType);
-            $promise = $promise->then(function () use ($installer, $repo, $target): ?\React\Promise\PromiseInterface {
-                return $installer->install($repo, $target);
+            $promise = $promise->then(function () use ($installer, $repo, $target): PromiseInterface {
+                $promise = $installer->install($repo, $target);
+                if ($promise instanceof PromiseInterface) {
+                    return $promise;
+                }
+                
+                return \React\Promise\resolve()
             });
         }
 
