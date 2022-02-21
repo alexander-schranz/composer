@@ -288,8 +288,13 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
                     $promise = \React\Promise\resolve();
                 }
 
-                return $promise->then(function () use ($target): ?\React\Promise\PromiseInterface {
-                    return $this->installCode($target);
+                return $promise->then(function () use ($target): PromiseInterface {
+                    $promise = $this->installCode($target);
+                    if ($promise instanceof PromiseInterface) {
+                        return $promise;
+                    }
+
+                    return \React\Promise\resolve()
                 });
             }
 
