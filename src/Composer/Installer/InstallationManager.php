@@ -554,7 +554,7 @@ class InstallationManager
                     return $promise;
                 }
                 
-                return \React\Promise\resolve()
+                return \React\Promise\resolve();
             });
         }
 
