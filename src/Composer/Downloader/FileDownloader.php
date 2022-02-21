@@ -407,10 +407,13 @@ class FileDownloader implements DownloaderInterface, ChangeReportInterface
             $promise = \React\Promise\resolve();
         }
 
-        return $promise->then(function () use ($target, $path): ?\React\Promise\PromiseInterface {
+        return $promise->then(function () use ($target, $path): PromiseInterface {
             $promise = $this->install($target, $path, false);
+            if ($promise instanceof PromiseInterface) {
+                return $promise;
+            }
 
-            return $promise;
+            return \React\Promise\resolve();
         });
     }
 
