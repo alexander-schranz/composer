@@ -1493,7 +1493,10 @@ class ComposerRepository extends ArrayRepository implements ConfigurableReposito
         $degradedMode = &$this->degradedMode;
         $eventDispatcher = $this->eventDispatcher;
 
-        $accept = function ($response) use ($io, $url, $filename, $cache, $cacheKey, $eventDispatcher): array {
+        /**
+         * @return array<mixed>|true true if the response was a 304 and the cache is fresh
+         */
+        $accept = function ($response) use ($io, $url, $filename, $cache, $cacheKey, $eventDispatcher) {
             // package not found is acceptable for a v2 protocol repository
             if ($response->getStatusCode() === 404) {
                 $this->packagesNotFoundCache[$filename] = true;
