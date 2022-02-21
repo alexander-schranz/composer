@@ -294,7 +294,7 @@ class LibraryInstaller implements InstallerInterface, BinaryPresenceInterface
                         return $promise;
                     }
 
-                    return \React\Promise\resolve()
+                    return \React\Promise\resolve();
                 });
             }
 
