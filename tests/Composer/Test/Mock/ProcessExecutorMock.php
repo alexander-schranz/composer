@@ -174,7 +174,7 @@ class ProcessExecutorMock extends ProcessExecutor
         return $return;
     }
 
-    public function executeAsync($command, $cwd = null): \React\Promise\Promise
+    public function executeAsync($command, $cwd = null): PromiseInterface
     {
         $resolver = function ($resolve, $reject): void {
             // TODO strictly speaking this should resolve with a mock Process instance here
